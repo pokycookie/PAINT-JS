@@ -1,0 +1,147 @@
+@import "reset.css";
+
+body {
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.canvas {
+  margin-top: 25px;
+  margin-bottom: 100px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: crosshair;
+}
+
+.controls {
+  width: 600px;
+  margin: 10px 0px;
+  position: fixed;
+  bottom: 10px;
+  padding: 5px 20px;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(151, 161, 170);
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.2);
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls_info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0px;
+  font-weight: 600;
+  color: white;
+}
+
+.controls_canvas {
+  margin-left: 10px;
+}
+.mode_info {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.controls_colors {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.controls_btns {
+  margin: 15px 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.controls_btns button {
+  all: unset;
+  background-color: white;
+  padding: 4px 0px;
+  margin: 0px 5px;
+  width: 60px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-weight: 600;
+}
+
+.controls_btns button:active {
+  transform: scale(0.98);
+}
+
+.controls_color {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.controls_color:active {
+  transform: scale(0.95);
+}
+
+.controls_hideBtn {
+  background-color: rgb(94, 104, 112);
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls_range {
+  margin: 5px 0px;
+}
+
+.controls_range input[type="range"] {
+  width: 200px;
+  cursor: pointer;
+}
+
+.selected {
+  box-shadow: 0 0 20px 5px rgba(30, 219, 236, 0.7);
+}
+
+.canvas-h {
+  margin-right: 15px;
+}
+
+@keyframes hideControlBar {
+  0% {
+  }
+  100% {
+    transform: translateY(200px);
+  }
+}
+
+.invisi {
+  animation: hideControlBar 2s ease-in-out forwards;
+}
+
+@keyframes exposeControlBar {
+  0% {
+    transform: translateY(200px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.visi {
+  animation: exposeControlBar 2s ease-in-out forwards;
+}

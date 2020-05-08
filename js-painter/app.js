@@ -6,18 +6,25 @@ const mode = document.querySelector("#js-mode");
 const modeInfo = document.querySelector(".js-modeInfo");
 const saveBtn = document.querySelector("#js-save");
 const resetBtn = document.querySelector("#js-reset");
+const canvasH = document.querySelector("#js-canvasH");
+const canvasW = document.querySelector("#js-canvasW");
+const hideBtn = document.querySelector("#js-hideBtn");
+const controls = document.querySelector(".controls");
+const hideIco = document.querySelector("#js-hideIco");
 
 const INITIAL_COLOR = "rgb(0, 0, 0)";
+const INITIAL_WIDTH = 500;
+const INITIAL_HEIGHT = 500;
 
 let isPainting = false;
 let currentColor = INITIAL_COLOR;
 let paintMode = true; // true = paint mode, false = background fill mode
 
-canvas.width = 500;
-canvas.height = 500;
+canvas.width = INITIAL_WIDTH;
+canvas.height = INITIAL_HEIGHT;
 
 ctx.fillStyle = "white";
-ctx.fillRect(0, 0, 500, 500);
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
 // ctx.lineCap = "round";
@@ -43,7 +50,7 @@ function getCanvas() {
     isPainting = true;
     if (paintMode === false) {
       ctx.fillStyle = currentColor;
-      ctx.fillRect(0, 0, 500, 500);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
   });
   canvas.addEventListener("mouseup", function () {
@@ -60,6 +67,12 @@ function getCanvas() {
 function getColor() {
   for (let i = 0; i < colors.length; i++) {
     colors[i].addEventListener("click", function () {
+      for (let j = 0; j < colors.length; j++) {
+        if (colors[j].classList.contains("selected")) {
+          colors[j].classList.remove("selected");
+        }
+      }
+      colors[i].classList.add("selected");
       ctx.strokeStyle = colors[i].style.backgroundColor;
       currentColor = colors[i].style.backgroundColor;
     });
@@ -68,7 +81,6 @@ function getColor() {
 
 function getBrushSize() {
   brushSize.addEventListener("input", function (event) {
-    console.log(event.target.value);
     ctx.lineWidth = event.target.value;
   });
 }
@@ -89,7 +101,11 @@ function setMode() {
 
 function reset() {
   ctx.fillStyle = "white";
-  ctx.fillRect(0, 0, 500, 500);
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  canvas.width = INITIAL_WIDTH;
+  canvas.height = INITIAL_HEIGHT;
+  canvasH.value = INITIAL_WIDTH;
+  canvasW.value = INITIAL_HEIGHT;
 }
 
 function save() {
@@ -98,6 +114,49 @@ function save() {
   link.href = image;
   link.download = "JS-PAINT";
   link.click();
+}
+
+function getCanvasWidth() {
+  canvasW.addEventListener("input", function (event) {
+    let width = event.target.value;
+    if (width > 1000) {
+      width = 1000;
+      canvasW.value = 1000;
+    } else if (width < 100) {
+      width = 100;
+      canvasW.value = 100;
+    }
+    canvas.width = width;
+  });
+}
+
+function getCanvasHeight() {
+  canvasH.addEventListener("input", function (event) {
+    let height = event.target.value;
+    if (height > 1000) {
+      height = 1000;
+      canvasH.value = 1000;
+    } else if (height < 100) {
+      height = 100;
+      canvasH.value = 100;
+    }
+    canvas.height = height;
+  });
+}
+
+function hide() {
+  if (controls.classList.contains("visi")) {
+    controls.classList.add("invisi");
+    controls.classList.remove("visi");
+    hideIco.classList.remove("fa-sort-down");
+    hideIco.classList.add("fa-sort-up");
+  } else if (controls.classList.contains("invisi")) {
+    controls.classList.add("visi");
+    controls.classList.remove("invisi");
+    hideIco.classList.remove("fa-sort-up");
+    hideIco.classList.add("fa-sort-down");
+  }
+  console.log("HIDE");
 }
 
 function init() {
@@ -109,8 +168,11 @@ function init() {
   }
   getColor();
   setMode();
+  getCanvasWidth();
+  getCanvasHeight();
   saveBtn.addEventListener("click", save);
   resetBtn.addEventListener("click", reset);
+  hideBtn.addEventListener("click", hide);
 }
 
 init();
